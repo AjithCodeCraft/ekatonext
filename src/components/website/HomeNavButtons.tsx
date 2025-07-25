@@ -49,8 +49,7 @@ export function HomeNavButton({
 
   const primaryClasses = `bg-teal-600 hover:bg-teal-700 text-white px-5 py-2.5 md:px-6 md:py-3`;
 
-  const secondaryClasses = `border-2 border-teal-300 text-teal-100 hover:bg-teal-800 px-5 py-2.5 md:px-6 md:py-3`;
-
+  const secondaryClasses = `border-2 border-teal-300 text-teal-700 hover:bg-teal-700 hover:text-white px-5 py-2.5 md:px-6 md:py-3`;
   if (external) {
     return (
       <a
@@ -83,6 +82,7 @@ export function HomeNavButton({
     </LinkComponent>
   );
 }
+
 
 export function HomepageExternalButtons() {
   return (

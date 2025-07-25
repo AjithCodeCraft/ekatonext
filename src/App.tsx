@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { ResponsiveLayout } from './components/website/layout/ResponsiveLayout';
 import { ProfessionalLayout } from './components/website/layout/ProfessionalLayout';
 import { Loading } from './common/Loading';
+import { NotFound } from './common/NotFound';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -63,7 +64,7 @@ const App = () => {
        
 
           {/* Fallback route */}
-          <Route path="*" element={<div>Not Found</div>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </Router>

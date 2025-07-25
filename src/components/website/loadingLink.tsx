@@ -23,7 +23,7 @@ export function LoadingLink({
   ...props
 }: LoadingLinkProps) {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const [_, setIsLoading] = useState(false);
 
   const handleClick = async (e: MouseEvent<HTMLAnchorElement>) => {
     // Call custom onClick handler if provided
@@ -79,14 +79,7 @@ export function LoadingLink({
       >
         {children}
       </Link>
-      {isLoading && (
-        <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/20 backdrop-blur-sm">
-          <div className="bg-white rounded-lg p-4 shadow-xl flex items-center space-x-3">
-            <div className="w-5 h-5 border-2 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
-            <span className="text-teal-700 font-medium">Loading...</span>
-          </div>
-        </div>
-      )}
+
     </>
   );
 }

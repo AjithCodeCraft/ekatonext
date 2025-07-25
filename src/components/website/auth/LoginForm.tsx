@@ -40,27 +40,24 @@ export function LoginForm({
   return (
     <form className={cn("flex flex-col gap-6", className)} onSubmit={handleSubmit} {...props}>
       <div className="flex flex-col items-center gap-2 text-center">
-        <div className="flex items-center space-x-3 mb-4">
+        <div className="flex items-center space-x-3">
           <img
             src="/logoeka.png"
             alt="ekaBrahmaa Logo"
             className="max-h-14"
           />
-          
         </div>
-        <h2 className="text-2xl font-bold text-teal-900">Welcome</h2>
-      
       </div>
 
       {error && (
-        <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+        <div className="p-3 bg-red-100 border border-red-300 rounded-lg">
           <p className="text-red-700 text-sm">{error}</p>
         </div>
       )}
 
       <div className="grid gap-6">
         <div className="grid gap-3">
-          <Label htmlFor="email" className="text-teal-800 font-medium">Email</Label>
+          <Label htmlFor="email" className="text-white font-medium">Email</Label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-teal-500 w-4 h-4" />
             <Input 
@@ -69,15 +66,14 @@ export function LoginForm({
               placeholder="your.email@example.com" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="pl-10 border-teal-200 focus:border-teal-400 focus:ring-teal-400"
+              className="pl-10 bg-gray-200 border-teal-300 focus:border-teal-200 focus:ring-teal-200"
               required 
             />
           </div>
         </div>
         <div className="grid gap-3">
           <div className="flex items-center">
-            <Label htmlFor="password" className="text-teal-800 font-medium">Password</Label>
-          
+            <Label htmlFor="password" className="text-white font-medium">Password</Label>
           </div>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-teal-500 w-4 h-4" />
@@ -86,24 +82,22 @@ export function LoginForm({
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="pl-10 pr-10 border-teal-200 focus:border-teal-400 focus:ring-teal-400"
+              className="pl-10 pr-10 bg-gray-200 border-teal-300 focus:border-teal-200 focus:ring-teal-200"
               required 
               placeholder="Enter your password"
             />
-            
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-teal-500 hover:text-teal-700"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-teal-200 hover:text-white"
             >
               {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
-            
           </div>
         </div>
         <Button 
           type="submit" 
-          className="w-full bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+          className="w-full bg-gradient-to-r from-teal-400 to-teal-500 hover:from-teal-500 hover:to-teal-600 text-white py-3 rounded-lg shadow hover:shadow-md transition-all duration-300"
           disabled={isLoading}
         >
           {isLoading ? (
@@ -119,57 +113,51 @@ export function LoginForm({
           )}
         </Button>
         <Link
-              to="/forgot-password"
-              className="ml-auto text-sm text-teal-600 hover:text-teal-700 underline-offset-4 hover:underline"
-            >
-              Forgot your password?
-            </Link>
+          to="/forgot-password"
+          className="ml-auto text-sm text-teal-200 hover:text-white underline-offset-4 hover:underline"
+        >
+          Forgot your password?
+        </Link>
         
-        <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
-          <span className="bg-background text-muted-foreground relative z-10 px-2 bg-white text-teal-600">
+        <div className="relative text-center text-sm">
+          <span className="bg-teal-900 text-teal-200 relative z-10 px-2">
             Or continue with
           </span>
+          <div className="absolute top-1/2 left-0 right-0 h-px bg-teal-700 -z-0"></div>
         </div>
         
         <Button 
           type="button"
           variant="outline" 
-          className="w-full border-teal-200 text-teal-700 hover:bg-teal-50 py-3 rounded-full"
+          className="w-full border-teal-500 text-teal-500 hover:bg-white/10 py-3 rounded-lg bg-gray-200 "
         >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5 mr-2">
-            <path
-              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-              fill="#4285F4"
-            />
-            <path
-              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-              fill="#34A853"
-            />
-            <path
-              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-              fill="#FBBC05"
-            />
-            <path
-              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-              fill="#EA4335"
-            />
-          </svg>
+         <img src="google.svg" alt="google" className="w-6 h-6 mr-2"/>
           Continue with Google
+        </Button>
+
+
+        <Button 
+          type="button"
+          variant="outline" 
+          className="w-full border-teal-500 text-teal-500 hover:bg-white/10 py-3 rounded-lg bg-gray-200 "
+        >
+         <img src="apple.svg" alt="apple" className="w-6 h-6 mr-2"/>
+          Continue with Apple
         </Button>
       </div>
       
       <div className="text-center text-sm">
-        <span className="text-teal-700">Don&apos;t have an account? </span>
+        <span className="text-teal-200">Don't have an account? </span>
         <Link 
           to="/quiz" 
-          className="text-teal-600 hover:text-teal-700 font-medium underline-offset-4 hover:underline"
+          className="text-white hover:text-teal-200 font-medium underline-offset-4 hover:underline"
         >
           Start your healing journey
         </Link>
       </div>
 
       <div className="text-center">
-        <div className="flex items-center justify-center space-x-4 text-xs text-teal-600 mb-4">
+        <div className="flex items-center justify-center space-x-4 text-xs text-teal-200 mb-4">
           <div className="flex items-center space-x-1">
             <Sparkles className="w-3 h-3" />
             <span>Secure & Private</span>
@@ -179,13 +167,13 @@ export function LoginForm({
             <span>HIPAA Compliant</span>
           </div>
         </div>
-        <p className="text-xs text-teal-600">
+        <p className="text-xs text-teal-200">
           By signing in, you agree to our{" "}
-          <Link to="/terms" className="underline hover:text-teal-700">
+          <Link to="/terms" className="underline hover:text-white">
             Terms of Service
           </Link>{" "}
           and{" "}
-          <Link to="/privacy" className="underline hover:text-teal-700">
+          <Link to="/privacy" className="underline hover:text-white">
             Privacy Policy
           </Link>
         </p>
@@ -193,3 +181,4 @@ export function LoginForm({
     </form>
   )
 }
+

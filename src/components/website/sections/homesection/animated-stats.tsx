@@ -29,8 +29,8 @@ export function AnimatedStats() {
 
   const startNumberAnimation = () => {
     stats.forEach((stat, index) => {
-      const duration = 2000; // 2 seconds
-      const steps = 60;
+      const duration = 4000; // 2 seconds
+      const steps = 120;
       const increment = stat.number / steps;
       let current = 0;
 

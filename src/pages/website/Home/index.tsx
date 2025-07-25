@@ -2,6 +2,7 @@
 import { Suspense, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
+
 // import { 
 //   AnimatedFAQ, 
 //   AnimatedStats, 
@@ -99,8 +100,10 @@ export function Homepage() {
 
   return (
     <div>
+      <div className="px-6">
       
       <ModernHeroSection />
+      </div>
       
       <div ref={statsRef}>
         <Suspense fallback={<Skeleton className="w-full h-[300px] rounded-lg" />}>
@@ -148,7 +151,7 @@ export function Homepage() {
         </Suspense>
       </div>
       
-      <div className="mt-16 lg:mt-20 lazy-content" ref={appDownloadRef}>
+      <div className="mt-16 lg:mt-20 lazy-content " ref={appDownloadRef}>
         <Suspense fallback={<Skeleton className="w-full h-[300px] rounded-lg" />}>
           <AppDownloadSection />
         </Suspense>

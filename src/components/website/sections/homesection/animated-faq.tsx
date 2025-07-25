@@ -106,94 +106,57 @@ export function AnimatedFAQ() {
         </div>
 
         {/* Contact Support */}
-        <Card className="border-teal-200 shadow-lg md:shadow-xl bg-gradient-to-r from-teal-50 to-pink-50">
-          <CardContent className="p-4 md:p-6 lg:p-8 text-center">
-            <h3 className="text-xl md:text-2xl font-serif font-bold text-teal-900 mb-3 md:mb-4">
-              Still Have Questions?
-            </h3>
-            <p className="text-teal-700 mb-6 md:mb-8 leading-relaxed text-sm md:text-base">
-              Our support team is here to help you every step of the way. Get in touch with us for personalized assistance.
-            </p>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
-              <Button 
-                variant="outline" 
-                className="border-teal-200 text-teal-700 hover:bg-teal-50 p-4 md:p-6 h-auto flex flex-col items-center space-y-2 hover:scale-105 active:scale-95 transition-all duration-300 focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50"
-                aria-label="Start a live chat with our support team"
-                onClick={() => {
-                  // Track support interaction
-                  try {
-                    if (typeof window !== 'undefined' && window.gtag) {
-                      window.gtag('event', 'support_interaction', {
-                        interaction_type: 'live_chat'
-                      });
-                    }
-                  } catch (error) {
-                    console.error('Analytics error:', error);
-                  }
-                }}
-              >
-                <MessageCircle className="w-6 h-6" />
-                <span className="font-medium text-sm md:text-base">Live Chat</span>
-                <span className="text-xs md:text-sm opacity-75">Instant support</span>
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                className="border-teal-200 text-teal-700 hover:bg-teal-50 p-4 md:p-6 h-auto flex flex-col items-center space-y-2 hover:scale-105 active:scale-95 transition-all duration-300 focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50"
-                aria-label="Call our support team"
-                onClick={() => {
-                  // Track support interaction
-                  try {
-                    if (typeof window !== 'undefined' && window.gtag) {
-                      window.gtag('event', 'support_interaction', {
-                        interaction_type: 'phone_call'
-                      });
-                    }
-                  } catch (error) {
-                    console.error('Analytics error:', error);
-                  }
-                }}
-              >
-                <Phone className="w-6 h-6" />
-                <span className="font-medium text-sm md:text-base">Call Us</span>
-                <span className="text-xs md:text-sm opacity-75">+91 62828 41859</span>
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                className="border-teal-200 text-teal-700 hover:bg-teal-50 p-4 md:p-6 h-auto flex flex-col items-center space-y-2 hover:scale-105 active:scale-95 transition-all duration-300 focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50"
-                aria-label="Email our support team"
-                onClick={() => {
-                  // Track support interaction
-                  try {
-                    if (typeof window !== 'undefined' && window.gtag) {
-                      window.gtag('event', 'support_interaction', {
-                        interaction_type: 'email'
-                      });
-                    }
-                  } catch (error) {
-                    console.error('Analytics error:', error);
-                  }
-                }}
-              >
-                <Mail className="w-6 h-6" />
-                <span className="font-medium text-sm md:text-base">Email Us</span>
-                <span className="text-xs md:text-sm opacity-75">care@ekabrahmaa.com</span>
-              </Button>
-            </div>
-          </CardContent>
-          
-          <div className="mt-12 text-center">
-            <HomeNavButton
-              primary
-              label="Start Your Healing Journey"
-              href="/quiz"
-              ariaLabel="Take the quiz to begin your healing journey"
-              trackingCategory="faq_section"
-            />
-          </div>
-        </Card>
+        <Card className="border-teal-200 shadow-md bg-gradient-to-br from-teal-50 to-teal-50/50">
+  <CardContent className="p-6 text-center">
+    <h3 className="text-lg font-serif font-bold text-teal-900 mb-3">
+      Still Have Questions?
+    </h3>
+    <p className="text-teal-700 text-sm mb-6">
+      Our team is here to help you
+    </p>
+    
+    <div className="grid grid-cols-3 gap-3 mb-6">
+      <Button 
+        variant="outline" 
+        size="sm"
+        className="border-teal-200 text-teal-700 hover:bg-teal-50 h-16 flex flex-col gap-1 "
+        onClick={() => window.gtag?.('event', 'support_interaction', { interaction_type: 'live_chat' })}
+      >
+        <MessageCircle className="w-4 h-4" />
+        <span className="text-xs font-medium">Live Chat</span>
+      </Button>
+      
+      <Button 
+        variant="outline" 
+        size="sm"
+        className="border-teal-200 text-teal-700 hover:bg-teal-50 h-16 flex flex-col gap-1"
+        onClick={() => window.gtag?.('event', 'support_interaction', { interaction_type: 'phone_call' })}
+      >
+        <Phone className="w-4 h-4" />
+        <span className="text-xs font-medium">Call Us</span>
+      </Button>
+      
+      <Button 
+        variant="outline" 
+        size="sm"
+        className="border-teal-200 text-teal-700 hover:bg-teal-50 h-16 flex flex-col gap-1"
+        onClick={() => window.gtag?.('event', 'support_interaction', { interaction_type: 'email' })}
+      >
+        <Mail className="w-4 h-4" />
+        <span className="text-xs font-medium">Email Us</span>
+      </Button>
+    </div>
+
+    <HomeNavButton
+      primary
+      label="Start Healing Journey"
+      href="/quiz"
+      ariaLabel="Take the quiz to begin your healing journey"
+      trackingCategory="faq_section"
+      className="text-sm h-9"
+    />
+  </CardContent>
+</Card>
       </div>
     </section>
   );

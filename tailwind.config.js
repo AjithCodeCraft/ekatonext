@@ -6,6 +6,7 @@ export default {
     './src/**/*.{js,ts,jsx,tsx}',
     // Add any other file paths where you use Tailwind classes
   ],
+  
   theme: {
   	extend: {
   		fontSize: {
@@ -66,6 +67,7 @@ export default {
   				}
   			]
   		},
+		
   		fontWeight: {
   			display: '700',
   			heading: '600',
@@ -219,26 +221,15 @@ export default {
   			}
   		},
   		fontFamily: {
-  			display: [
-  				'var(--font-display)',
-  				'EB Garamond',
-  				'serif'
-  			],
-  			body: [
-  				'var(--font-body)',
-  				'Lato',
-  				'sans-serif'
-  			],
-  			sans: [
-  				'var(--font-body)',
-  				'Lato',
-  				'sans-serif'
-  			],
-  			serif: [
-  				'var(--font-display)',
-  				'EB Garamond',
-  				'serif'
-  			]
+			display: ['Playfair Display', 'serif'],
+			heading: ['Playfair Display', 'serif'],
+			
+			// Lato for body and subheadings
+			body: ['Lato', 'sans-serif'],
+			sans: ['Lato', 'sans-serif'],
+			
+			// Fallback to serif if needed
+			serif: ['Playfair Display', 'serif'],
   		},
   		animation: {
   			'lotus-bloom': 'lotus-bloom 3s ease-in-out forwards',
@@ -246,6 +237,7 @@ export default {
   			'slide-up': 'slide-up 0.5s ease-in-out forwards',
   			'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite'
   		},
+		
   		keyframes: {
   			'lotus-bloom': {
   				'0%': {
@@ -336,5 +328,6 @@ export default {
   		}
   	}
   },
+  
   plugins: [require("tailwindcss-animate")],
 };

@@ -75,7 +75,7 @@ export function SocialFeed() {
   };
 
   return (
-    <section className="py-0 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-50 to-teal-50">
+    <section className="py-0 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-slate-50 to-teal-50 mt-2">
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-8 md:mb-12 transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
           <h2 className="text-4xl font-serif font-bold text-teal-900 mb-6">

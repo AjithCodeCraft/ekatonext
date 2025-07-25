@@ -5,18 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/website/ui/card';
 import { Button } from '@/components/website/ui/button';
 import { Badge } from '@/components/website/ui/badge';
-import { Progress } from '@/components/website/ui/progress';
 import { Clock, Users, ArrowRight, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { HomeNavButton } from '@/components/website/HomeNavButtons';
-
-// Memoize expensive operations
-const calculateProgressIncrement = (currentProgress: number) => {
-  if (currentProgress >= 100) {
-    return 100;
-  }
-  return currentProgress + 2.5;
-};
 
 interface Program {
   id: string;
@@ -39,93 +30,29 @@ interface InteractiveFeaturesProps {
 export function InteractiveFeatures({ programs }: InteractiveFeaturesProps) {
   const navigate = useNavigate();
   const [activeProgram, setActiveProgram] = useState(0);
-  const [progress, setProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-  const [hoverProgress, setHoverProgress] = useState<{[key: number]: number}>({});
 
   useEffect(() => {
-    // Initialize hover progress for all cards
-    const initialHoverProgress: {[key: number]: number} = {};
-    programs.forEach((_, index) => {
-      initialHoverProgress[index] = 0;
-    });
-    setHoverProgress(initialHoverProgress);
-
     // Use requestAnimationFrame for smoother animation
     requestAnimationFrame(() => {
       setIsVisible(true);
     });
-  }, [programs]);
+  }, []);
 
   useEffect(() => {
-    // Use requestAnimationFrame for smoother transitions
+    // Auto-rotate programs every 4 seconds
     const interval = setInterval(() => {
-      requestAnimationFrame(() => {
-        setActiveProgram((prev) => (prev + 1) % programs.length);
-      });
+      setActiveProgram((prev) => (prev + 1) % programs.length);
     }, 4000);
 
     return () => clearInterval(interval);
   }, [programs.length]);
 
-  useEffect(() => {
-    setProgress(0);
-    
-    let animationFrameId: number;
-    let lastTimestamp: number;
-    
-    const updateProgress = (timestamp: number) => {
-      if (!lastTimestamp) lastTimestamp = timestamp;
-      const elapsed = timestamp - lastTimestamp;
-      
-      if (elapsed > 100) { // Update every 100ms
-        lastTimestamp = timestamp;
-        setProgress(prev => calculateProgressIncrement(prev));
-      }
-      
-      if (progress < 100) {
-        animationFrameId = requestAnimationFrame(updateProgress);
-      }
-    };
-    
-    animationFrameId = requestAnimationFrame(updateProgress);
-
-    return () => {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
-    };
-  }, [activeProgram, progress]);
-
-  // Handle hover progress animation
-  useEffect(() => {
-    let hoverInterval: NodeJS.Timeout;
-    
-    if (hoveredCard !== null) {
-      hoverInterval = setInterval(() => {
-        setHoverProgress(prev => ({
-          ...prev,
-          [hoveredCard]: Math.min(prev[hoveredCard] + 5, 100)
-        }));
-      }, 50);
-    }
-    
-    return () => {
-      if (hoverInterval) clearInterval(hoverInterval);
-    };
-  }, [hoveredCard]);
-
   const handleCardHover = (index: number) => {
     setHoveredCard(index);
-    // Reset progress when hovering a new card
-    if (hoverProgress[index] >= 100) {
-      setHoverProgress(prev => ({...prev, [index]: 0}));
-    }
-  };
-
-  const handleCardLeave = () => {
-    setHoveredCard(null);
+    // When hovering a card, immediately make it active
+    setActiveProgram(index);
   };
 
   return (
@@ -143,18 +70,18 @@ export function InteractiveFeatures({ programs }: InteractiveFeaturesProps) {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Interactive Program Display */}
           <div className={`transform transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'}`}>
-            <Card className="border-teal-200 shadow-xl md:shadow-2xl bg-white/90 backdrop-blur-sm overflow-hidden">
+            <Card className="border-teal-200 shadow-xl md:shadow-2xl bg-white/90 backdrop-blur-sm overflow-hidden group">
               <div className="relative">
-                <div className={`h-2 bg-gradient-to-r ${programs[activeProgram].color} transition-all duration-1000`}>
-                  <div 
-                    className="h-full bg-white/30 transition-all duration-100 ease-linear"
-                    style={{ width: `${100 - progress}%` }}
-                  />
-                </div>
+                {/* Highlight bar when card is hovered */}
+                <div 
+                  className={`absolute top-0 left-0 h-1 bg-gradient-to-r ${programs[activeProgram].color} transition-all duration-500 ${
+                    hoveredCard !== null ? 'w-full opacity-100' : 'w-0 opacity-0'
+                  }`}
+                />
                 
                 <div className="p-4 sm:p-6 md:p-8">
                   <div className="flex items-center justify-between mb-6">
-                    <div className={`w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r ${programs[activeProgram].color} rounded-full flex items-center justify-center text-white shadow-lg animate-pulse`}>
+                    <div className={`w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r ${programs[activeProgram].color} rounded-full flex items-center justify-center text-white shadow-lg transition-transform duration-500 group-hover:scale-110`}>
                       {programs[activeProgram].icon}
                     </div>
                     <div className="text-right">
@@ -219,23 +146,6 @@ export function InteractiveFeatures({ programs }: InteractiveFeaturesProps) {
                   </Link>
                 </div>
               </div>
-              <Link 
-                to={`/programs/${programs[activeProgram].id}`}
-                onClick={() => {
-                  // Track click event
-                  try {
-                    if (typeof window !== 'undefined' && window.gtag) {
-                      window.gtag('event', 'program_click', {
-                        program_id: programs[activeProgram].id,
-                        program_title: programs[activeProgram].title
-                      });
-                    }
-                  } catch (error) {
-                    console.error('Analytics error:', error);
-                  }
-                }}
-              >
-              </Link>
             </Card>
           </div>
 
@@ -244,24 +154,34 @@ export function InteractiveFeatures({ programs }: InteractiveFeaturesProps) {
             {programs.map((program, index) => (
               <Card 
                 key={index}
-                className={`border-2 cursor-pointer transition-all duration-300 hover:shadow-lg transform hover:scale-105 ${
+                className={`border-2 cursor-pointer transition-all duration-300 hover:shadow-lg transform ${
                   index === activeProgram 
-                    ? 'border-teal-500 shadow-xl scale-105' 
+                    ? 'border-teal-500 shadow-xl scale-[1.02] bg-teal-50/50' 
                     : 'border-teal-100 hover:border-teal-300'
                 } bg-white/80 backdrop-blur-sm flex-shrink-0`}
                 onClick={() => setActiveProgram(index)}
                 onMouseEnter={() => handleCardHover(index)}
-                onMouseLeave={handleCardLeave}
+                onMouseLeave={() => setHoveredCard(null)}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex items-center space-x-4">
-                    <div className={`w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r ${program.color} rounded-full flex items-center justify-center text-white shadow-lg flex-shrink-0`}>
+                    <div className={`w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r ${program.color} rounded-full flex items-center justify-center text-white shadow-lg flex-shrink-0 transition-transform duration-300 ${
+                      index === activeProgram ? 'scale-110' : ''
+                    }`}>
                       {program.icon}
                     </div>
                     
                     <div className="flex-1">
-                      <h4 className="font-bold text-teal-900 text-sm md:text-base">{program.title}</h4>
-                      <p className="text-pink-600 font-medium text-xs md:text-sm">{program.subtitle}</p>
+                      <h4 className={`font-bold text-sm md:text-base transition-colors ${
+                        index === activeProgram ? 'text-teal-800' : 'text-teal-900'
+                      }`}>
+                        {program.title}
+                      </h4>
+                      <p className={`font-medium text-xs md:text-sm ${
+                        index === activeProgram ? 'text-pink-700' : 'text-pink-600'
+                      }`}>
+                        {program.subtitle}
+                      </p>
                       <div className="flex items-center space-x-3 mt-1 text-xs md:text-sm text-teal-600">
                         <span className="whitespace-nowrap">{program.duration}</span>
                         <span className="whitespace-nowrap">{program.healers} Healers</span>
@@ -269,21 +189,22 @@ export function InteractiveFeatures({ programs }: InteractiveFeaturesProps) {
                     </div>
                     
                     <div className="text-right">
-                      <div className="text-lg md:text-xl font-bold text-teal-900">{program.price}</div>
-                      <Badge variant="outline" className="text-xs border-teal-200 text-teal-700 whitespace-nowrap">
+                      <div className={`text-lg md:text-xl font-bold ${
+                        index === activeProgram ? 'text-teal-800' : 'text-teal-900'
+                      }`}>
+                        {program.price}
+                      </div>
+                      <Badge 
+                        variant="outline" 
+                        className={`text-xs ${
+                          index === activeProgram 
+                            ? 'border-teal-300 bg-teal-100/50 text-teal-700' 
+                            : 'border-teal-200 text-teal-700'
+                        } whitespace-nowrap`}
+                      >
                         {program.type}
                       </Badge>
                     </div>
-                  </div>
-
-                  {/* Progress Bar - shows on hover or when active */}
-                  <div className="mt-4">
-                    <Progress 
-                      value={index === activeProgram ? progress : (hoveredCard === index ? hoverProgress[index] : 0)} 
-                      className={`h-1 transition-all duration-300 ${
-                        (hoveredCard === index || index === activeProgram) ? 'opacity-100' : 'opacity-0'
-                      }`}
-                    />
                   </div>
                 </CardContent>
               </Card>

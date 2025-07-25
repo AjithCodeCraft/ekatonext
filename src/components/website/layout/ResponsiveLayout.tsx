@@ -48,12 +48,13 @@ const Logo = () => (
 // More compact CTA Buttons
 const CTAButtons = () => (
   <div className="flex items-center gap-1.5 md:gap-3">
+    
     <HomeNavButton
       label="Take Quiz"
       href="/quiz"
       icon={<Sparkles className="w-3.5 h-3.5" />}
       ariaLabel="Take the dosha quiz to discover your constitution"
-      className="border-teal-300 text-white-700 hover:bg-teal-50"
+      className="border-teal-300 text-white-700 hover:bg-teal-50 text-white hover:text-white"
       
     />
     <HomeNavButton
